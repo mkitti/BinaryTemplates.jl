@@ -1,0 +1,18 @@
+name = "HDF5BinaryTemplates"
+uuid = "2fdc933a-200b-4e87-880b-5bdfb75c9c79"
+authors = ["Mark Kittisopikul <kittisopikulm@janelia.hhmi.org> and contributors"]
+version = "0.1.0"
+
+[deps]
+BinaryTemplates = "63ebbf9a-108b-456f-88e1-4a75abca4b5c"
+HDF5 = "f67ccb44-e63f-5c2f-98bd-6dc0ccc4ba2f"
+
+[compat]
+BinaryTemplates = "0.1"
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
