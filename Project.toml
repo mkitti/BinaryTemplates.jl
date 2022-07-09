@@ -8,7 +8,7 @@ CRC32c = "8bf52ea8-c179-5cab-976a-9e18b702a9bc"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [compat]
-julia = "1"
+julia = "1.5"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
