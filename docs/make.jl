@@ -6,11 +6,11 @@ DocMeta.setdocmeta!(BinaryTemplates, :DocTestSetup, :(using BinaryTemplates); re
 makedocs(;
     modules=[BinaryTemplates],
     authors="Mark Kittisopikul <kittisopikulm@janelia.hhmi.org> and contributors",
-    repo="https://github.com/kittisopikulm@janelia.hhmi.org/BinaryTemplates.jl/blob/{commit}{path}#{line}",
+    repo="https://github.com/mkitti/BinaryTemplates.jl/blob/{commit}{path}#{line}",
     sitename="BinaryTemplates.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://kittisopikulm@janelia.hhmi.org.github.io/BinaryTemplates.jl",
+        canonical="https://mkitti.github.io/BinaryTemplates.jl",
         edit_link="main",
         assets=String[],
     ),
@@ -20,6 +20,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/kittisopikulm@janelia.hhmi.org/BinaryTemplates.jl",
+    repo="github.com/mkitti/BinaryTemplates.jl",
     devbranch="main",
 )

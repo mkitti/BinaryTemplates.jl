@@ -4,7 +4,7 @@ CurrentModule = BinaryTemplates
 
 # BinaryTemplates
 
-Documentation for [BinaryTemplates](https://github.com/kittisopikulm@janelia.hhmi.org/BinaryTemplates.jl).
+Documentation for [BinaryTemplates](https://github.com/mkitti/BinaryTemplates.jl).
 
 ```@index
 ```

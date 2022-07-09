@@ -5,7 +5,8 @@
 [![Build Status](https://github.com/mkitti/BinaryTemplates.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/mkitti/BinaryTemplates.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/mkitti/BinaryTemplates.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/mkitti/BinaryTemplates.jl)
 
-BinaryTemplates.jl assembles a file from chunks at byte offsets. This is useful for 
+BinaryTemplates.jl assembles a file from chunks at byte offsets. This is useful for creating large files quickly that are sparse, such as
+data containers before the data is added.
 
 ## Example Usage
 

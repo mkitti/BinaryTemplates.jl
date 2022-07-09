@@ -174,6 +174,37 @@ using Test
     @test BinaryTemplates.isexpectedfilesize(fn, no_chunk_template)
 
     @test BinaryTemplates.backuptemplate(tempname(testdir), no_chunk_template) == EmptyTemplate()
+    
+    # Clean up backup file
+    rm(BinaryTemplates.backup_filename(fn))
+
+    # Check backup capability
+    data = rand(UInt8, 4*1024^2)
+    fn = tempname(testdir)
+    open(fn, "w") do f
+        write(f, data)
+    end
+    backup_template = apply_template(fn, binary_template_4MiB; ensure_zero = false)
+    apply_template(fn, backup_template; ensure_zero = false)
+    @test read(fn, 4*1024^2) == data
+    backup_template = apply_template(fn, binary_template_4MiB; ensure_zero = false)
+    backup_template_from_file = BinaryTemplates.load_binary_template(BinaryTemplates.backup_filename(fn))
+    @test backup_template == backup_template_from_file
+    apply_template(fn, backup_template_from_file; ensure_zero = false)
+    @test read(fn, 4*1024^2) == data
+    backup_template_from_file = BinaryTemplates.load_binary_template(BinaryTemplates.backup_filename(fn), 2)
+    @test binary_template_4MiB == backup_template_from_file
+    backup_template_from_file = BinaryTemplates.load_binary_template(BinaryTemplates.backup_filename(fn), 3)
+    @test backup_template == backup_template_from_file
+    backup_template_from_file = BinaryTemplates.load_binary_template(BinaryTemplates.backup_filename(fn), 4)
+    @test binary_template_4MiB == backup_template_from_file
+    @test filesize(fn) == 4*1024^2
+
+    # Check backup capability with larger template
+    backup_template = apply_template(fn, binary_template_8MiB; ensure_zero = false)
+    apply_template(fn, backup_template; ensure_zero = false, truncate=true)
+    @test read(fn, 4*1024^2) == data
+    @test filesize(fn) == 4*1024^2
 
     # Clean up backup file
     rm(BinaryTemplates.backup_filename(fn))
