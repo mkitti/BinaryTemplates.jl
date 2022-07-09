@@ -163,6 +163,6 @@ function apply_template(
         end
     end
     save(backup, backup_filename, "a")
-    _apply_template(target_filename, offsets(t), chunks(t), expected_file_size(t); truncate)
+    _apply_template(target_filename, offsets(t), chunks(t), expected_file_size(t); truncate=truncate)
     return backup
 end
