@@ -4,7 +4,8 @@ using Printf
 using CRC32c
 
 export offsets, chunks, expected_file_size
-export create_template, apply_template
+export apply_template
+export BinaryTemplate, HeaderOnlyBinaryTemplate
 
 include("types.jl")
 include("util.jl")

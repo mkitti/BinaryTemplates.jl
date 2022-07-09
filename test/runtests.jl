@@ -1,6 +1,6 @@
 using BinaryTemplates
 using Test
-import BinaryTemplates: HeaderOnlyBinaryTemplate, BinaryTemplate, ZeroTemplate
+import BinaryTemplates: ZeroTemplate
 
 
 @testset "BinaryTemplates.jl" begin
@@ -18,6 +18,22 @@ import BinaryTemplates: HeaderOnlyBinaryTemplate, BinaryTemplate, ZeroTemplate
     @test expected_file_size(binary_template) == 4096
     @test offsets(header_only_template) == [0]
     @test chunks(header_only_template) == [header_only_template.header]
+    @test header_only_template == convert(HeaderOnlyBinaryTemplate, binary_template)
+
+    io = IOBuffer()
+    show(io, MIME"text/plain"(), header_only_template)
+    output = String(take!(io))
+    @test contains(output, "HeaderOnlyBinaryTemplate")
+    @test contains(output, "expected_file_size: 4.000 KiB")
+    @test contains(output, "0x0000000000000000")
+    @test contains(output, "2048")
+
+    show(io, MIME"text/plain"(), header_only_template)
+    output = String(take!(io))
+    @test contains(output, "BinaryTemplate")
+    @test contains(output, "expected_file_size: 4.000 KiB")
+    @test contains(output, "0x0000000000000000")
+    @test contains(output, "2048")
 
     # Apply template to an empty file
     fn = tempname(testdir)
@@ -36,6 +52,16 @@ import BinaryTemplates: HeaderOnlyBinaryTemplate, BinaryTemplate, ZeroTemplate
     @test filesize(fn) == expected_file_size(binary_template)
 
     binary_template_4MiB = BinaryTemplate(4*1024^2, [0, 4096, 4*1024^2-1024], [rand(UInt8, 1024), rand(UInt8, 2048), rand(UInt8, 512)])
+    show(io, MIME"text/plain"(), binary_template_4MiB)
+    output = String(take!(io))
+    @test contains(output, "expected_file_size: 4.000 MiB")
+    @test contains(output, "0x0000000000000000")
+    @test contains(output, "0x0000000000001000")
+    @test contains(output, "0x00000000003ffc00")
+    @test contains(output, "1024")
+    @test contains(output, "2048")
+    @test contains(output, "512")
+
     fn = tempname(testdir)
     apply_template(fn, binary_template_4MiB)
     @test filesize(fn) == 4*1024^2
