@@ -22,4 +22,5 @@ makedocs(;
 deploydocs(;
     repo="github.com/mkitti/BinaryTemplates.jl",
     devbranch="main",
+    push_preview = true,
 )
