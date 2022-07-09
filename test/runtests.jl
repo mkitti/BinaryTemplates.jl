@@ -173,6 +173,8 @@ using Test
     @test filesize(fn) == 1024
     @test BinaryTemplates.isexpectedfilesize(fn, no_chunk_template)
 
+    @test BinaryTemplates.backuptemplate(tempname(testdir), no_chunk_template) == EmptyTemplate()
+
     # Clean up backup file
     rm(BinaryTemplates.backup_filename(fn))
 
