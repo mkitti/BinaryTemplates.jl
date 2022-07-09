@@ -4,6 +4,11 @@ function Base.:(==)(x::AbstractBinaryTemplate, y::AbstractBinaryTemplate)
     offsets(x) == offsets(y)
 end
 
+"""
+    backup_filename(filename)
+
+Get the backup file name for `filename`. This function does not actually backup anything.
+"""
 function backup_filename(filename)
     dir = dirname(filename)
     base = splitext(basename(filename))[1]

@@ -34,7 +34,7 @@ function backuptemplate(filename::AbstractString, t::AbstractBinaryTemplate)
     return BinaryTemplate(filesize(filename), offsets, chunks)
 end
 function backuptemplate(io::IO, t::AbstractBinaryTemplate)
-    _offsets = offsets(t)
+    _offsets = copy(offsets(t))
     lengths = length.(chunks(t))
     _chunks = map(_offsets, lengths) do offset, length
         seek(io, offset)
@@ -94,6 +94,7 @@ function load(::Type{BinaryTemplate}, io::IO)
     read!(io, offsets)
     lengths = Vector{Int}(undef, num)
     read!(io, lengths)
+    @debug "loading:" expected_file_size, offsets, lengths
     chunks = map(lengths) do length
         read(io, length)
     end
@@ -151,7 +152,7 @@ function apply_template(
     if truncate
         truncate_to_filesize = expected_file_size(t)
     else
-        @assert filesize(target_filename) <= expected_file_size(t) "$target_filename is not the expected size of $(expected_file_size(t))."
+        @assert filesize(target_filename) <= expected_file_size(t) "$target_filename, $(filesize(target_filename)) bytes, is not the expected size of $(expected_file_size(t))."
     end
     backup = backuptemplate(target_filename, t)
     if ensure_zero
