@@ -1,7 +1,5 @@
 using BinaryTemplates
 using Test
-import BinaryTemplates: ZeroTemplate
-
 
 @testset "BinaryTemplates.jl" begin
     testdir =  mktempdir()
@@ -156,6 +154,24 @@ import BinaryTemplates: ZeroTemplate
     check_template = apply_template(fn, zero_template; ensure_zero = false, backup_filename = alt_backup_filename)
     @test check_template == binary_template_8MiB
     @test binary_template_8MiB == BinaryTemplates.load(BinaryTemplate, alt_backup_filename)
+
+    empty_template = EmptyTemplate()
+    @test chunks(empty_template) == Vector{Vector{UInt8}}()
+    @test offsets(empty_template) == Int[]
+    @test expected_file_size(empty_template) == 0
+
+    check_template = apply_template(fn, empty_template; truncate = true, ensure_zero = false)
+    @test filesize(fn) == 0
+    @test BinaryTemplates.load_binary_template(BinaryTemplates.backup_filename(fn)) == binary_template_4MiB
+
+    no_chunk_template = EmptyTemplate(1024)
+    @test chunks(no_chunk_template) == Vector{Vector{UInt8}}()
+    @test offsets(empty_template) == Int[]
+    @test expected_file_size(no_chunk_template) == 1024
+
+    check_template = apply_template(fn, no_chunk_template)
+    @test filesize(fn) == 1024
+    @test BinaryTemplates.isexpectedfilesize(fn, no_chunk_template)
 
     # Clean up backup file
     rm(BinaryTemplates.backup_filename(fn))
