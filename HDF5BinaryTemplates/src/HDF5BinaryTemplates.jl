@@ -67,10 +67,10 @@ end
 get_data_offsets(filename::String) = h5open(get_data_offsets, filename, "r")
 
 function get_meta_offsets(h5f::HDF5.File)
-    (; data_offsets, data_num_bytes) = get_data_offsets(h5f)
+    data = get_data_offsets(h5f)
     file_sz = Ref{HDF5.API.hsize_t}()
     HDF5.API.h5f_get_filesize(h5f, file_sz)
-    return get_meta_offsets(data_offsets, data_num_bytes, file_sz[])
+    return get_meta_offsets(data.data_offsets, data.data_num_bytes, file_sz[])
 end
 
 function get_meta_offsets(data_offsets, data_num_bytes, file_size)
